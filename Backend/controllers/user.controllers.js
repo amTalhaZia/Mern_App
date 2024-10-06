@@ -2,7 +2,7 @@ import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import User from "../models/user.models.js";
 
-
+// generarteAndAccessToken
 const generateAccessAndRefreshToken = async (userId) => {
     // console.log("userid", userId);
   try {
@@ -35,8 +35,7 @@ const generateAccessAndRefreshToken = async (userId) => {
   }
 };
 
-
-
+//   register user
 
 const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
@@ -70,6 +69,8 @@ const registerUser = asyncHandler(async (req, res) => {
   return res.status(201).json(new ApiResponse(201, "User registered successfully", user));
 });
 
+
+// loginuser
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -122,10 +123,28 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 
+const logout = asyncHandler(async (req, res) => {
+  await User.findByIdAndUpdate(req.user._id, { $set: { refreshToken: undefined } });
+
+  const options = {
+    httpOnly: true, 
+    secure: true
+  };
+
+  return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json({
+      message: "Logout successfully",
+      success: true,
+    });
+});
 
   
 
 export {
   registerUser,
-  loginUser
+  loginUser,
+  logout
 };
