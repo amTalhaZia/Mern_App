@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { createContext, useContext, useState } from "react";
 import { registerUser, loginUser, logoutUser } from "../Api/Api";
 
@@ -52,7 +51,6 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {

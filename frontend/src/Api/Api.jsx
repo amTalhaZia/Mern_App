@@ -47,7 +47,7 @@ export  const  registerUser = async(username, email,  password)=> {
 export const logoutUser = async () => {
     try {
         const response = await axiosInstance.post("/logout");
-        return response.data; // Returns the logout success message or data
+        return response.data; 
     } catch (error) {
         throw new Error("Failed to logout user", error.message);
     }
