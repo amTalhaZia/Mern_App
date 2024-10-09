@@ -47,7 +47,9 @@ export const logoutUser = async () => {
             },
             withCredentials: true
         });
+        // console.log(response.data)
         return response.data; 
+
     } catch (error) {
 
         throw new Error("Failed to logout user: " + error.message);

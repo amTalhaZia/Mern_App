@@ -121,7 +121,7 @@ const loginUser = asyncHandler(async (req, res) => {
       message: "Login successful",
       user:loginUser,
       accessToken,
-      refreshToken
+      // refreshToken
     });
 });
 

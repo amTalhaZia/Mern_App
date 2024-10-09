@@ -1,30 +1,43 @@
 import { useAuth } from "../../context/Auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import "./login.css"
 
 const Login = () => {
   const { error, handleLogin } = useAuth();
-  const navigate =  useNavigate()
+  const navigate =  useNavigate();
 
   const [cridentials, setCridentials] = useState({
     email: "",
     password: ""
   });
 
+  
+  const [debounce, setDebounce] = useState(cridentials);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebounce(cridentials); 
+    }, 300); 
+
+    return () => {
+      clearTimeout(timer); 
+    };
+  }, [cridentials]); 
+
   const handleChnage = (e) => {
     setCridentials({
       ...cridentials,
       [e.target.name]: e.target.value
     });
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleLogin(cridentials.email, cridentials.password);
-    navigate('/house')
-  }
-
+    await handleLogin(debounce.email, debounce.password);
+    navigate('/house');
+  };
+  
   return (
     <div className="login_wrapper">
       <div className="login_content">
@@ -56,7 +69,7 @@ const Login = () => {
         {error && <p className="error_message">{error.message}</p>}
       </div>
     </div>
-  )
+  );
 }
 
 export default Login;

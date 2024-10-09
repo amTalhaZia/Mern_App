@@ -12,6 +12,19 @@ const Register = () => {
         password: ""
     });
 
+      
+  const [debounce, setDebounce] = useState(cridentails);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebounce(cridentails); 
+    }, 300); 
+
+    return () => {
+      clearTimeout(timer); 
+    };
+  }, [cridentials]); 
+
     const handleChange = (e) => {
         setCridentails({
             ...cridentails,
@@ -22,7 +35,7 @@ const Register = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
-            await handleRegister(cridentails.username, cridentails.email, cridentails.password);
+            await handleRegister(debounce.username, debounce.email, debounce.password);
             navigate('/')
         } catch (err) {
             console.error(err.message);
