@@ -7,7 +7,7 @@ import House from "./House.jsx";
 const App = () => {
   return (
     <div>
-      <h1>heey</h1>
+
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
