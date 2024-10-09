@@ -1,62 +1,62 @@
 import { useAuth } from "../../context/Auth";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import "./login.css"
 
-
-
 const Login = () => {
-  const{error,handleLogin} = useAuth()
+  const { error, handleLogin } = useAuth();
+  const navigate =  useNavigate()
 
   const [cridentials, setCridentials] = useState({
-    email:"",
-    password:""
-  })
+    email: "",
+    password: ""
+  });
 
   const handleChnage = (e) => {
     setCridentials({
       ...cridentials,
-      [e.target.name] :e.target.value
-    })
+      [e.target.name]: e.target.value
+    });
   }
 
-  const handleSubmit =async(e)=> {
-    e.preventDefault()
-     await handleLogin(cridentials.email, cridentials.password)
-     
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await handleLogin(cridentials.email, cridentials.password);
+    navigate('/house')
   }
 
   return (
     <div className="login_wrapper">
-    <div className="login_content" >
-      <h2>login page</h2>
-      <form onSubmit={handleSubmit} >
-        <div>
-          <input 
-           type="email"
-           name="email"
-           value={cridentials.email}
-           onChange={handleChnage}
+      <div className="login_content">
+        <h2 className="login_title">Login Page</h2>
+        <form onSubmit={handleSubmit} className="login_form">
+          <div className="login_div">
+            <input 
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={cridentials.email}
+              className="input login_input"
+              onChange={handleChnage}
             />
-        </div>
-        <div>
-          <input 
-           type="password"
-           name="password"
-           value={cridentials.password}
-           onChange={handleChnage}
-           />
-        </div>
-        <button>
-             login
-           </button>
-        <div>
-          <p>don,t have an account?<a href="/logout">Resgister</a></p>
-        </div>
-      </form>
-      {error && <p>{error.message}</p>}
-    </div>
+            <input 
+              type="password"
+              name="password"
+              className="input login_input"
+              placeholder="Password"
+              value={cridentials.password}
+              onChange={handleChnage}
+            />
+          </div>
+          <button type="submit" className="login_button">Login</button>
+          <p className="login_register">
+            Don't have an account? <a href="/register" className="register_link">Register</a>
+          </p>
+        </form>
+        {error && <p className="error_message">{error.message}</p>}
+      </div>
     </div>
   )
 }
 
-export default Login
+export default Login;
