@@ -38,9 +38,12 @@ const generateAccessAndRefreshToken = async (userId) => {
 //   register user
 
 const registerUser = asyncHandler(async (req, res) => {
+  // console.log(req.body);
+  
   const { username, email, password } = req.body;
 
-  if ([username, email, password].some((field) => field.trim() === '')) {
+
+  if ([username, email, password].some((field) => field.trim() == '')) {
     return res.status(400).json({
       success: false,
       message: "All fields are required",
@@ -116,7 +119,7 @@ const loginUser = asyncHandler(async (req, res) => {
     .json({
       success: true,
       message: "Login successful",
-      loginUser,
+      user:loginUser,
       accessToken,
       refreshToken
     });

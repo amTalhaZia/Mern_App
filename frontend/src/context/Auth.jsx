@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
-import { registerUser, loginUser, logoutUser } from "../Api/Api";
+import { registerUser, loginUser, logoutUser } from "../Api/Api.jsx";
+
 
 const AuthContext = createContext();
 
@@ -10,23 +11,29 @@ export const AuthProvider = ({ children }) => {
 
     const handleRegister = async (username, email, password) => {
         try {
+            setError(false)
             setLoading(true);
             const newUser = await registerUser(username, email, password);
+            console.log(newUser);
+            
             setUser(newUser);
         } catch (error) {
-            setError(error.message)
+            console.log(error);
+            
+            setError(error)
         } finally {
             setLoading(false); 
         }
     };
 
-    const handleLogin = async (username, email) => {
+    const handleLogin = async (email, password) => {
         try {
+            setError(false)
             setLoading(true);
-            const loggedInUser = await loginUser(username, email);
+            const loggedInUser = await loginUser(email, password);
             setUser(loggedInUser);
         } catch (error) {
-            setError(error.message); 
+            setError(error); 
         } finally {
             setLoading(false); 
         }
@@ -34,15 +41,18 @@ export const AuthProvider = ({ children }) => {
 
     const handleLogout = async () => {
         try {
+            setError(false)
             setLoading(true);
-            await logoutUser();
+              await logoutUser();
             setUser(null); 
         } catch (error) {
-            setError(error.message); 
+            setError(error); 
         } finally {
             setLoading(false); 
         }
     };
+
+
 
     return (
         <AuthContext.Provider value={{ user, loading, error, handleRegister, handleLogin, handleLogout }}>
@@ -58,3 +68,6 @@ export const useAuth = () => {
     }
     return context;
 };
+
+
+export default AuthProvider
